@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #1655f5, #b0d0f0, #a3c4f3);
+    font-family: 'Dancing Script', cursive;
+}
+
+
+.glow-effect {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%);
+    z-index: 0;
+}
+
+.card {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #08457e;
+    z-index: 10;
+}
+
+.card h1 {
+    font-size: 3.5rem;
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: #063e70;
+    text-shadow: 2px 2px 5px #add8f0;
+}
+
+.subtitle {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    font-family: 'Dancing Script', cursive;
+    color: #186bb7;
+}
+
+.love-letter {
+    position: absolute;
+    top: -5%;
+    animation: fall linear forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.love-explosion {
+    position: absolute;
+    animation: explode ease-out forwards;
+    z-index: 20;
+    font-family: 'Dancing Script', cursive;
+    white-space: nowrap;
+}
+
+@keyframes fall {
+    to {
+        top: 110%;
+    }
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty));
+        opacity: 0;
+    }
+}
+
+.matrix, .explosion {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
