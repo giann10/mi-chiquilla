@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Día de la Novia 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom right, #1655f5, #b0d0f0, #a3c4f3);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .glow-effect {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%);
+            z-index: 0;
+        }
+
+        .card {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #08457e;
+            z-index: 10;
+        }
+
+        .card h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            color: #063e70;
+            text-shadow: 2px 2px 5px #add8f0;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+            font-family: 'Dancing Script', cursive;
+            color: #186bb7;
+        }
+
+        .main-image {
+            margin-top: 20px;
+            max-width: 45vw;
+            max-height: 60vh;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .love-letter {
+            position: absolute;
+            top: -5%;
+            animation: fall linear forwards;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .love-explosion {
+            position: absolute;
+            animation: explode ease-out forwards;
+            z-index: 20;
+            font-family: 'Dancing Script', cursive;
+            white-space: nowrap;
+        }
+
+        @keyframes fall {
+            to {
+                top: 110%;
+            }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        .matrix, .explosion {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-effect"></div>
+
+    <div class="card">
+        <h1>Feliz Día</h1>
+        <div class="subtitle">de la Novia 💙</div>
+        <img src="https://cdn.discordapp.com/attachments/1216969479591039027/1400683410124570817/content.png?ex=688d8794&is=688c3614&hm=ba7cbdea96b194e848dd930f50dd7f85b1c54f1c60e6ae2c3ac24ad06c611ad1&" 
+             alt="Foto"
+             class="main-image">
+    </div>
+
+    <div class="matrix" id="matrix"></div>
+    <div class="explosion" id="explosion"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const matrix = document.getElementById('matrix');
+            const loveWords = ["Mi chiquilla", "Te quiero mucho", "Te adoro"];
+
+            function createLoveLetter() {
+                const letter = document.createElement('div');
+                letter.className = 'love-letter';
+
+                if (Math.random() > 0.4) {
+                    letter.textContent = loveWords[Math.floor(Math.random() * loveWords.length)];
+                    letter.style.fontSize = (20 + Math.random() * 30) + 'px';
+                } else {
+                    letter.textContent = "💙";
+                    letter.style.fontSize = (15 + Math.random() * 25) + 'px';
+                }
+
+                letter.style.left = Math.random() * 100 + 'vw';
+                letter.style.animationDuration = (5 + Math.random() * 15) + 's';
+                letter.style.animationDelay = Math.random() * 5 + 's';
+                letter.style.opacity = Math.random() * 0.6 + 0.1;
+                letter.style.color = `hsl(${Math.random() * 20 + 200}, ${Math.random() * 30 + 70}%, ${Math.random() * 20 + 70}%)`;
+
+                matrix.appendChild(letter);
+
+                setTimeout(() => {
+                    letter.remove();
+                }, 20000);
+            }
+
+            setInterval(createLoveLetter, 150);
+
+            function createLoveExplosion(x, y) {
+                const explosion = document.getElementById('explosion');
+                const colors = ['#a3c9f7', '#7bb3f0', '#539de9', '#2d87e2', '#126fd1'];
+                const messages = ["Eres increíble", "Eres la mejor", "Muaaa"];
+
+                for (let i = 0; i < 40; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 30 + Math.random() * 200;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+
+                    const love = document.createElement('div');
+                    love.className = 'love-explosion';
+                    love.textContent = messages[Math.floor(Math.random() * messages.length)];
+                    love.style.left = x + 'px';
+                    love.style.top = y + 'px';
+                    love.style.setProperty('--tx', tx + 'px');
+                    love.style.setProperty('--ty', ty + 'px');
+                    love.style.animationDuration = (0.9 + Math.random() * 1.2) + 's';
+                    love.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    love.style.fontSize = (18 + Math.random() * 14) + 'px';
+
+                    explosion.appendChild(love);
+
+                    setTimeout(() => {
+                        love.remove();
+                    }, 20000);
+                }
+            }
+
+            document.addEventListener('click', function (e) {
+                createLoveExplosion(e.clientX, e.clientY);
+            });
+
+            document.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                createLoveExplosion(touch.clientX, touch.clientY);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
