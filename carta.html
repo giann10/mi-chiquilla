@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta Secreta 2 by myeya</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(194, 197, 197); 
+      overflow-x: hidden;
+    }
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      animation: fall linear forwards;
+      color: rgba(255,0,0,0.6);
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+    .active {
+      display: flex;
+    }
+    .password-screen {
+      flex-direction: column;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    .key {
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+    }
+    .key:hover {
+      background-color: #e6f0f5;
+      transform: translateY(-3px);
+    }
+    .input-display {
+      font-size: 24px;
+      margin-top: 20px;
+      letter-spacing: 8px;
+    }
+    .notepad {
+      background-color: #f9f9f9;
+      border: 3px solid #000000;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      line-height: 1.6;
+      box-shadow: 8px 8px 15px rgba(0,0,0,0.2);
+    }
+    .notepad h3 {
+      margin-top: 0;
+    }
+    .password-img {
+      width: 260px; 
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+    .note-img {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background-color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background-color: #ded8d8;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+<div class="hearts"></div>
+<div id="passwordScreen" class="screen password-screen active">
+<img src="https://cdn.discordapp.com/attachments/1054973334812622959/1404194941776953405/11.png?ex=689a4df2&is=6898fc72&hm=86c9f3fa067d4cb44cf5825c4070d8e9a24f15c5b1b262e1d6efcc1bd2440f85&" 
+     alt="Imagen decorativa" 
+     class="password-img" 
+     style="width: 300px; height: auto;">
+  <h2>🔒 Ingresa la contraseña</h2>
+  <div class="input-display" id="inputDisplay">••••</div>
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <button class="key" onclick="checkPassword()">✔</button>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <button class="key" onclick="deleteLast()">⌫</button>
+  </div>
+</div>
+<div id="notepadScreen" class="screen">
+  <div class="notepad" style="text-align: center;">
+    <img src="https://cdn.discordapp.com/attachments/1054973334812622959/1404196923900170301/a82a4f94-8ce3-44f2-a0ab-4ec7aa160855.png?ex=689a4fcb&is=6898fe4b&hm=ae67607379b5915075eb265b3b7a8d448b435cda498853e5a379df034fb00e2e&" 
+         alt="Imagen decorativa" 
+         class="password-img"
+         style="max-width: 100%; height: auto;">
+<h3 style="text-align: left; margin-bottom: 0;">📅 11 Agosto 2025</h3>
+<h4 style="text-align: left; margin-top: 0;">💌 Mi Arelinda</h4>
+<p style="text-align: justify;">
+  Felices 6 meses preciosa, ya tenemos casi un año de conocernos, y medio año de estar juntos, medio año que se convirtieron en los más felices, donde disfruté, reí y me sentí muy feliz, y quiero que así siga siendo. Quiero que sepas lo feliz que soy por tenerte en mi vida, porque me haces sentir amado, querido y sobre todo acompañado, no me imagino un día sin ti:(
+</p>
+<p style="text-align: justify;">
+  Contigo sé lo que es amar bonito, ese que se demuestra con acciones, con palabras sinceras
+  y con esos pequeños detalles que son especiales y significan mucho. Quiero mejorar día a día y ser una mejor pareja para ti, porque me convenzo aún más de que quiero que seas tú, quiero que seas mi 23, mi 10 y mi 11.  Gracias por estar siempre conmigo, por darme tu tiempo, tu cariño y tu atención que tanto me gusta, lo aprecio de todo corazón 🫶
+</p>
+<p style="text-align: justify;">
+  No hay palabras para describir todo lo que siento por ti, pero quiero que sepas que contigo mi corazón se siente feliz, en paz, con muchas ganas de que te quedes, porque amo cada momento en el que estamos juntos, en el que compartimos, amo escuchar tu voz, tu risa, definitivamente eres mi mejor medicina ❤️‍🩹  </p>
+<p style="text-align: justify;">
+  Te quiero muchísimo mi chiquilla 💙
+</p>
+    <button class="back-btn" onclick="goBack()">🔙 Inicio</button>
+  </div>
+</div>
+<script>
+  function crearCorazones() {
+    const heartsContainer = document.querySelector('.hearts');
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 8000);
+    }, 500);
+  }
+  crearCorazones();
+  const correctPassword = '1102';
+  let input = '';
+  function enterDigit(digit) {
+    if (input.length < 4) {
+      input += digit;
+      updateDisplay();
+    }
+  }
+  function deleteLast() {
+    input = input.slice(0, -1);
+    updateDisplay();
+  }
+  function updateDisplay() {
+    document.getElementById('inputDisplay').textContent = input.padEnd(4, '•');
+  }
+  function checkPassword() {
+    if (input.length === 4) {
+      if (input === correctPassword) {
+        document.getElementById('passwordScreen').classList.remove('active');
+        document.getElementById('notepadScreen').classList.add('active');
+      } else {
+        alert('Contraseña incorrecta, intenta de nuevo');
+        input = '';
+        updateDisplay();
+      }
+    } else {
+      alert('Debes ingresar los 4 dígitos.');
+    }
+  }
+  function goBack() {
+    document.getElementById('notepadScreen').classList.remove('active');
+    document.getElementById('passwordScreen').classList.add('active');
+    input = '';
+    updateDisplay();
+  }
+</script>
+</body>
+</html>
